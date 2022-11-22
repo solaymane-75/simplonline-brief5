@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="Form.css" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="#">
+        <label for="Nom">Nom :</label>
+        <input type="text" id="Nom" />
+        <label for="Prénom">Prénom :</label>
+        <input type="text" id="Prénom" maxlength="30" /> <br>
+        <label for="Email">Email :</label>
+        <input type="text" id="email" /> <br>
+        <label for="Télephone">Télephone :</label>
+        <input type="text" id="Télephone" /> <br>
+        <label for="mal" id="mall"><input type="radio" name="genre" id="mal">Masculin</label>
+        <label for="fam" id="faml"><input type="radio" name="genre" id="fam">Féminin</label><br>
+        <label>Groupe</label>
+        <div class="radio">
+            <input type="radio" name="Groupe" id="radio" required>
+            <h5>DW-101</h5>
+            <input type="radio" name="Groupe" id="radio" required>
+            <h5>DW-102</h5>
+            <input type="radio" name="Groupe" id="radio" required>
+            <h5>DW-103</h5>
+            <input type="radio" name="Groupe" id="radio" required>
+            <h5>DM-101</h5>
+            <input type="radio" name="Groupe" id="radio" required>
+            <h5>DM-102</h5>
+        </div>
+        <label>Club</label>
+        <select id="multiple-select" multiple required>
+            <option value="1" id="check">Informatique</option>
+            <option value="2" id="check"> Robotique</option>
+            <option value="3" id="check">Jeu d'échecs</option>
+            <option value="4" id="check"> Musique</option>
+            <option value="5" id="check"> Foot</option>
+            <option value="6" id="check">Théatre</option>
+
+        </select>
+        <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+        <script>
+            new MultiSelectTag('multiple-select')
+        </script>
+        <input type="submit" value="Submit" id="submit">
+        <a id="form2" href="./Form.html">Autre Méthode</a>
+    </form>
+    <div class="nom">
+
+    </div>
+    <div class="nom2">
+        <i class="fa-solid fa-exclamation"></i>
+        <p id="messagnom"></p>
+        <p id="messagpre"></p>
+        <p id="messagmail"></p>
+        <p id="numéro"></p>
+        <p id="messaggenre"></p>
+        <p id="messaggrp"></p>
+        <p id="messagclub"></p>
+    </div>
+
+    <script src="config.js"></script>
+</body>
+
+</html>
+
+
+<script>
+
+    document.forms[0].onsubmit = function (e) {
+        document.querySelector('.nom2').style.display = 'block';
+        document.querySelector('.nom').style.display = 'none';
+
+        let result = /^[a-zA-Z]{2,30}$/;
+        let teet = result.test(document.getElementById("Nom").value);
+        if (teet === false) {
+            document.getElementById('messagnom').innerHTML = "-- le nom incorrect"
+            document.querySelector('#Nom').style.border = "2px solid red";
+            e.preventDefault();
+        }
+        else {
+            document.querySelector('#Nom').style.border = "2px solid green";
+        }
+        let testpr = result.test(document.getElementById("Prénom").value);
+        if (testpr === false) {
+            document.getElementById('messagpre').innerHTML = "-- le prenom incorrect"
+            document.querySelector('#Prénom').style.border = "2px solid red";
+            e.preventDefault();
+        }
+        else {
+            document.querySelector('#Prénom').style.border = "2px solid green";
+        }
+        let numero = document.getElementById('Télephone').value;
+        const tgt = /^[0]{1}[5-7]{1}[0-9]{8}$/.test(numero);
+        if (tgt === true) {
+            document.querySelector('#Télephone').style.border = "2px solid green";
+        }
+        else {
+            document.getElementById('numéro').innerHTML = "-- Numéro n'est pas valide"
+            document.querySelector('#Télephone').style.border = "2px solid red";
+        }
+        if (document.getElementById("mal").checked === false && document.getElementById("fam").checked === false) {
+            document.getElementById('messaggenre').innerHTML = "-- genre incorrect"
+            document.querySelector('#mall').style.color = "red";
+            document.querySelector('#faml').style.color = "red";
+            e.preventDefault();
+        }
+        else {
+            document.querySelector('#mall').style.color = "green";
+            document.querySelector('#faml').style.color = "green";
+        }
+        let op = document.getElementById('group').value;
+        if (op == 0) {
+            document.getElementById('messaggrp').innerHTML = "-- choisez un groupe..."
+            document.querySelector('#group').style.border = "2px solid red";
+            e.preventDefault();
+        }
+        else {
+            document.querySelector('#group').style.border = "2px solid green";
+        }
+        let puch = [];
+        for (var option of document.getElementById("Club").options) {
+            if (option.selected) {
+                puch.push(option);
+            }
+        }
+        if (puch.length == 0) {
+            document.getElementById("messagclub").innerHTML = "-- choissez entre 1/3 clubs";
+            document.querySelector("#club").style.border = "2px solid red";
+            e.preventDefault();
+        }
+        else if (puch.length > 3) {
+            document.getElementById("messagclub").innerHTML = "--choissez entre 1/3 clubs";
+            document.querySelector("#clubb").style.border = "2px solid red";
+        }
+        else {
+            document.querySelector("#cluds").style.border = "2px solid green";
+        }
+        var email = document.getElementById("email");
+        var pattern = /^[^ ]+@ofppt+\.[a-z]{2}$/;
+
+        if (!email.value.match(pattern)) {
+            email.style.borderColor = "red";
+            return false;
+        }
+        else {
+            email.style.borderColor = "green";
+        }
+
+    };
+</script>
